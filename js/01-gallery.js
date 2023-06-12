@@ -17,7 +17,7 @@ const imgGallery = galleryItems
 </div>`
   )
   .join("");
-  
+
 gallery.insertAdjacentHTML("afterbegin", imgGallery);
 
 gallery.addEventListener("click", imgOnClick);
@@ -45,3 +45,4 @@ for (const image of blokker) {
     event.preventDefault();
   });
 }
+console.log(galleryItems);
