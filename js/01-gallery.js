@@ -17,6 +17,7 @@ const imgGallery = galleryItems
 </div>`
   )
   .join("");
+  
 gallery.insertAdjacentHTML("afterbegin", imgGallery);
 
 gallery.addEventListener("click", imgOnClick);
@@ -30,6 +31,12 @@ function imgOnClick(evt) {
     `<img src="${evt.target.dataset.source}" width="800" height="600">`
   );
   instance.show();
+
+  gallery.addEventListener("keydown", (evt) => {
+    if (evt.code === "Escape") {
+      instance.close();
+    }
+  });
 }
 
 const blokker = document.querySelectorAll(".gallery__image");
