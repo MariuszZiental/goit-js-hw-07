@@ -1,35 +1,31 @@
 import { galleryItems } from "./gallery-items.js";
-// Change code below this line
 
-const gallery = document.querySelector(".gallery");
-const addLiItem = document.createElement("li");
-const imgGallery = galleryItems
+const gallery = document.querySelector("ul.gallery");
+const galleryImages = galleryItems
   .map(
-    (image) => `<div class="gallery__item">
-  <a class="gallery__link" href="${image.original}">
-    <img
-      class="gallery__image"
-      src="${image.preview}"
-      data-source="${image.original}"
-      alt="${image.description}"
-    />
-  </a>
-</div>`
+    (image) =>
+      `<div class="gallery__item">
+      <a class="gallery__link" href="${image.original}">
+        <img class="gallery__image" data-source="${image.original}" src="${image.preview}" alt="${image.description}" />
+      </a>
+    </div>`
   )
   .join("");
 
-gallery.insertAdjacentHTML("afterbegin", imgGallery);
+gallery.insertAdjacentHTML("beforeend", galleryImages);
+console.log(gallery);
 
-gallery.addEventListener("click", imgOnClick);
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
 
-function imgOnClick(evt) {
-  if (evt.target.nodeName !== "IMG") {
+  if (event.target.nodeName !== "IMG") {
     return;
   }
 
   const instance = basicLightbox.create(
-    `<img src="${evt.target.dataset.source}" width="800" height="600">`
+    `<img src="${event.target.dataset.source}" alt="${event.target.alt}" />`
   );
+
   instance.show();
 
   gallery.addEventListener("keydown", (evt) => {
@@ -38,11 +34,3 @@ function imgOnClick(evt) {
     }
   });
 }
-
-const blokker = document.querySelectorAll(".gallery__image");
-for (const image of blokker) {
-  image.addEventListener("click", (event) => {
-    event.preventDefault();
-  });
-}
-console.log(galleryItems);
