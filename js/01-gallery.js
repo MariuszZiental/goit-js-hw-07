@@ -26,11 +26,11 @@ gallery.addEventListener("click", (event) => {
     `<img src="${event.target.dataset.source}" alt="${event.target.alt}" />`
   );
 
-  instance.show();
-
   gallery.addEventListener("keydown", (evt) => {
     if (evt.code === "Escape") {
       instance.close();
     }
   });
-}
+
+  instance.show();
+});
