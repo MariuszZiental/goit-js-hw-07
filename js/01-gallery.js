@@ -17,20 +17,20 @@ console.log(gallery);
 
 gallery.addEventListener("click", (event) => {
   event.preventDefault();
-
-  if (event.target.nodeName !== "IMG") {
-    return;
-  }
-
+  if (event.target.nodeName !== "IMG") return;
+  const handleEscapeKey = (event) => {
+    if (event.key === "Escape") instance.close();
+  };
   const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}" alt="${event.target.alt}" />`
-  );
-
-  gallery.addEventListener("keydown", (evt) => {
-    if (evt.code === "Escape") {
-      instance.close();
+    `<img src="${event.target.dataset.source}">`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", handleEscapeKey);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", handleEscapeKey);
+      },
     }
-  });
-
+  );
   instance.show();
 });
