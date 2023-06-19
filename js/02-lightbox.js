@@ -12,29 +12,27 @@ const imgGallery = galleryItems
 
 gallery.insertAdjacentHTML("afterbegin", imgGallery);
 
-const instance = new SimpleLightbox(".gallery a", {
-  showCounter: false,
-  disableScroll: true,
-  captionSelector: "self",
-});
+const instance = new SimpleLightbox(".gallery a", {});
 
-gallery.addEventListener("click", (evt) => {
-  if (evt.target.nodeName !== "IMG") {
-    return;
-  }
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
 
-  instance.open();
+  if (event.target.nodeName !== "IMG") return;
+  const handleEscapeKey = (event) => {
+    if (event.key === "Escape") instance.close();
+  };
 
-  gallery.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      instance.close();
+  const lightbox = basicLightbox.create(
+    `<img src="${event.target.dataset.source}">`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", handleEscapeKey);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", handleEscapeKey);
+      },
     }
-  });
-});
+  );
 
-const images = document.querySelectorAll(".gallery__image");
-images.forEach((image) => {
-  image.addEventListener("click", (event) => {
-    event.preventDefault();
-  });
+  instance.show();
 });
